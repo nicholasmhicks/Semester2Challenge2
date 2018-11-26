@@ -1,0 +1,80 @@
+﻿@model IEnumerable<WebApplication.Models.Basketball>
+
+@{
+                /**/
+
+                /**/
+
+                ViewBag.Title = "Membership paid records";
+}
+
+@{ if (ViewBag.Confirmed)
+    {
+
+        <h2>Index</h2>
+
+        <p>
+            @Html.ActionLink("Create New", "Create")
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Time)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Date)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Venue)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PaidCourtId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PaidAmmount)
+                </th>
+                <th></th>
+            </tr>
+            @{ decimal? ammount = 0;
+                foreach (var item in Model)
+                {
+                    if (item.Passed == 1)
+                    {
+                        ammount += item.PaidAmmount;
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Time)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Venue)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PaidCourtId)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.PaidAmmount)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                            </td>
+                        </tr>
+
+                    }
+                }
+                <tr>
+                    <td>Total paid: @ammount</td>
+                </tr>
+            }
+
+
+        </table>
+    }
+    else
+    {
+        <p>Not confirmed</p>
+    }
+}
+

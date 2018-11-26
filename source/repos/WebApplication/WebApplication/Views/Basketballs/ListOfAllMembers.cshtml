@@ -1,0 +1,57 @@
+﻿@model IEnumerable<WebApplication.Models.Basketball>
+@using Microsoft.AspNet.Identity;
+@{
+    ViewBag.Title = "Future Games";
+}
+
+@{
+    IEnumerable<WebApplication.Models.Basketball> distinctItems = Model.GroupBy(x => x.PaidCourtId).Select(y => y.First());
+ }
+
+@{ if (ViewBag.Confirmed)
+        
+            {
+        <h2>Index</h2>
+
+        <p>
+            @Html.ActionLink("Create New", "Create") |
+            @Html.ActionLink("Passed Games", "Passed")
+                    @Html.ActionLink("Confirm New Users", "AspNetUser", "Index")
+        </p>
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PaidCourtId)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PaidAmmount)
+                </th>
+                <th></th>
+            </tr>
+
+            
+
+
+            @foreach (var item in distinctItems)
+            {
+                var totalAmmount = Model.Where(x => x.PaidCourtId == item.PaidCourtId).Select(y => y.PaidAmmount).ToList();
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.PaidCourtId)
+                        </td>
+                        <td>
+                            @totalAmmount.Sum()
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        </td>
+                    </tr>
+        }
+        </table>
+    }
+    else
+    {
+        <p>Not confirmed</p>
+    }
+    }

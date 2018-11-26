@@ -1,0 +1,58 @@
+﻿@model IEnumerable<WebApplication.Models.AspNetUser>
+@using Microsoft.AspNet.Identity;
+@{
+                /**/
+
+                /**/
+
+                ViewBag.Title = "Users awaiting confirmation";
+}
+
+@{ if (ViewBag.Confirmed)
+    {
+        if (Model.Where(p => p.EmailConfirmed == false).Count() == 0)
+        {
+            <table>
+                <tr>
+                    <td>No unconfirmed users</td>
+                </tr>
+            </table>
+            
+        }
+        else
+        {
+            <h2>Index</h2>
+
+            <table class="table">
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Email)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UserName)
+                    </th>
+                    <th></th>
+                </tr>
+                <tr>
+                    @foreach (var item in Model)
+                    {
+
+                        if (item.EmailConfirmed == false)
+                        {
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Email)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.UserName)
+                            </td>
+                            <td>
+                                @Html.ActionLink("Approve", "Approve", new { id = item.Id })
+                            </td>
+
+                        }
+                    }
+                </tr>
+            </table>
+        }
+     }
+}
